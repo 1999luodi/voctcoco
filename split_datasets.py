@@ -8,11 +8,16 @@ from tqdm import tqdm
 
 
 def split():
-    sets = ['train', 'val', 'test']  # 划分数据集的类型'train','val','test'
+    sets = ['train', 'val', 'test','trainval']  # 划分数据集的类型'train','val','test'
 
     for img_set in sets:
         NEW_ROOT = os.path.join(ROOT, img_set)  # 获取存放的train val test的数据路径
-        # 确保目标目录存在
+
+        # 递归删除之前存放json的文件夹，并新建一个
+        try:
+            shutil.rmtree(NEW_ROOT)
+        except OSError:
+            pass
         os.makedirs(NEW_ROOT, exist_ok=True)
         with open(os.path.join(TARGETROOT, '%s.txt' % (img_set)), 'r') as file:
             img_ids = file.read().strip().split()

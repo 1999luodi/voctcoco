@@ -1,5 +1,7 @@
 import os
 import random
+import shutil
+import config
 from config import ROOT
 
 '''
@@ -9,21 +11,22 @@ train:val:test 比例可以自己调控
 
 '''
 # (train, val): test=0.9:0.1  train:val=0.8:0.2
-trainval_percentc = 0.9  # 设置训练集和验证机的比例
-train_trainval_percentc = 0.8  # 设置训练集所占训练和验证之和的比例，剩下就是测试集的比例
 
 
 def maketxt(trainval_percentc, train_trainval_percentc):
-
-    xmlfilepath = os.path.join(ROOT, 'true_ann')  # 获取你源数据的注释路径
-    txtsavepath = os.path.join(ROOT, 'ImageSets')  # 设置你目标数据的保存路径
-    if not os.path.exists(txtsavepath):
-        os.makedirs(txtsavepath)
-
+    xmlfilepath = config.ANNOTATION_ROOT  # 获取你源数据的注释路径
+    txtsavepath = config.TARGETROOT  # 设置你txt的保存路径
+    # 递归删除之前存放json的文件夹，并新建一个
+    try:
+        shutil.rmtree(txtsavepath)
+    except OSError:
+        pass
+    os.makedirs(txtsavepath,exist_ok=True)
     total_xml = os.listdir(xmlfilepath)  # 获取xml文件列表
 
     num = len(total_xml)  # 获取xml文件的数量
-    list_indices = range(num)  # 获取xml文件的序列号
+    list_indices = list(range(num)) # 获取xml文件的序列号
+    random.shuffle(list_indices)  # 使用shuffle函数打乱列表的次序
 
     train_trainval_percent = train_trainval_percentc
     trainval_percent = trainval_percentc

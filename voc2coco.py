@@ -17,7 +17,7 @@ def convert_to_cocodetection(dir, datasets_name, output_dir):
         output_dir:the path write the coco form json file
     """
     annotations_path = config.ANNOTATION_ROOT
-    ImageSets_path = os.path.join(dir, "ImageSets")
+    ImageSets_path = config.TARGETROOT
     # train_images_path = os.path.join(dir, "train")
     # val_images_path = os.path.join(dir, "val")
     id_num = 0
@@ -29,7 +29,7 @@ def convert_to_cocodetection(dir, datasets_name, output_dir):
         categories.append({"name": k, "id": v})
 
     # 读取xml文件并转化为json
-    for mode in ["train","val","test"]:
+    for mode in ["train","val","test","trainval"]:
         images = []
         annotations = []
 
