@@ -16,7 +16,7 @@ train:val:test 比例可以自己调控
 def maketxt(trainval_percentc, train_trainval_percentc):
     xmlfilepath = config.ANNOTATION_ROOT  # 获取你源数据的注释路径
     txtsavepath = config.TARGETROOT  # 设置你txt的保存路径
-    # 递归删除之前存放json的文件夹，并新建一个
+    # 递归删除之前存放txt的文件夹，并新建一个
     try:
         shutil.rmtree(txtsavepath)
     except OSError:
